@@ -1,0 +1,128 @@
+import CommonButton from "@/components/common-button";
+import AddNewTask from "@/components/tasks/add-new-task";
+import TaskItem from "@/components/tasks/task-item";
+import { Skeleton } from "@/components/ui/skeleton";
+import { TaskManagerContext } from "@/context";
+import {
+  addNewTaskApi,
+  deleteTaskApi,
+  getAllTasksApi,
+  updateTaskApi,
+} from "@/services";
+import { Fragment, useContext, useEffect, useState } from "react";
+
+function TasksPage() {
+  const [showDialog, setShowDialog] = useState(false);
+
+  const {
+    user,
+    taskFormData,
+    tasksList,
+    setTasksList,
+    loading,
+    setLoading,
+    currentEditedId,
+    setCurrentEditedId,
+  } = useContext(TaskManagerContext);
+  // console.log("current User", user);
+  async function fetchListOfTasks() {
+    setLoading(true);
+    const response = await getAllTasksApi(user?._id);
+    // console.log(response , "tasksList");
+    if (response?.success) {
+      setTasksList(response?.tasksList);
+      setLoading(false);
+    }
+  }
+
+  async function handleSubmit(getData) {
+    // console.log(getData, user);
+
+    // console.log("Form Data:", getData);
+    // console.log("User object:", user);
+    // console.log("User ID:", user?._id);
+
+    
+      const response =
+        currentEditedId !== null
+          ? await updateTaskApi({
+              ...getData,
+              _id: currentEditedId,
+              userId: user?._id,
+            })
+          : await addNewTaskApi({
+              ...getData,
+              userId: user?._id,
+            });
+      // console.log(response);
+
+      if (response) {
+        fetchListOfTasks();
+        setShowDialog(false);
+        taskFormData.reset();
+        setCurrentEditedId(null);
+      }
+      console.log(response);
+       
+  }
+
+  async function handleDelete(getTaskId) {
+    console.log(getTaskId);
+
+    const response = await deleteTaskApi(getTaskId);
+    if (response?.success) {
+      fetchListOfTasks();
+    }
+  }
+  useEffect(() => {
+    if (user !== null) fetchListOfTasks();
+  }, [user]);
+
+  console.log(tasksList);
+
+  if (loading)
+    return (
+      <Skeleton
+        className={"w-full h-[550px] rounded-[6px] bg-black opacity-50 "}
+      />
+    );
+
+  return (
+    <Fragment>
+      <div className="mb-5">
+        <CommonButton
+          onClick={() => setShowDialog(true)}
+          buttonText={"Add New Task"}
+        />
+      </div>
+      <div className="flex flex-col mt-5">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {tasksList?.length > 0 ? (
+            tasksList.map((taskItem) => (
+              <TaskItem
+                key={taskItem._id}
+                handleDelete={handleDelete}
+                item={taskItem}
+                setShowDialog={setShowDialog}
+                setCurrentEditedId={setCurrentEditedId}
+                taskFormData={taskFormData}
+              />
+            ))
+          ) : (
+            <h1>No tasks added! Please add one</h1>
+          )}
+        </div>
+      </div>
+      <AddNewTask
+        showDialog={showDialog}
+        setShowDialog={setShowDialog}
+        handleSubmit={handleSubmit}
+        taskFormData={taskFormData}
+        currentEditedId={currentEditedId}
+        setCurrentEditedId={setCurrentEditedId}
+      />
+    </Fragment>
+  );
+}
+
+export default TasksPage;
