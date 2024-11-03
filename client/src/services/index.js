@@ -1,35 +1,37 @@
 import axios from "axios";
 
-export const callRegisterUserApi = async (formData) => {
+const BASE_URL = "https://task-management-mern-app-jwt-backend.onrender.com/api";
+
+export const callRegisterUser Api = async (formData) => {
   const response = await axios.post(
-    "http://localhost:5000/api/user/register",
+    `${BASE_URL}/user/register`,
     formData,
     { withCredentials: true }
   );
   return response?.data;
 };
 
-export const callLoginUserApi = async (formData) => {
+export const callLoginUser Api = async (formData) => {
   const response = await axios.post(
-    "http://localhost:5000/api/user/login",
+    `${BASE_URL}/user/login`,
     formData,
     { withCredentials: true }
   );
   return response?.data;
 };
 
-export const callUserAuthApi = async () => {
+export const callUser AuthApi = async () => {
   const response = await axios.post(
-    "http://localhost:5000/api/user/auth",
+    `${BASE_URL}/user/auth`,
     {},
     { withCredentials: true }
   );
   return response?.data;
 };
 
-export const callLogoutApi = async (req, res) => {
+export const callLogoutApi = async () => {
   const response = await axios.post(
-    "http://localhost:5000/api/user/logout",
+    `${BASE_URL}/user/logout`,
     {},
     { withCredentials: true }
   );
@@ -38,31 +40,31 @@ export const callLogoutApi = async (req, res) => {
 
 export const addNewTaskApi = async (formData) => {
   const response = await axios.post(
-    "http://localhost:5000/api/task/add-new-task",
+    `${BASE_URL}/task/add-new-task`,
     formData
   );
   return response?.data;
 };
-export const getAllTasksApi = async (getCurrentUserId) => {
-  const response = await axios.get(
-    `http://localhost:5000/api/task/get-all-tasks-by-userid/${getCurrentUserId}`
-  );
 
+export const getAllTasksApi = async (getCurrentUser Id) => {
+  const response = await axios.get(
+    `${BASE_URL}/task/get-all-tasks-by-userid/${getCurrentUser Id}`
+  );
   return response?.data;
 };
+
 export const updateTaskApi = async (formData) => {
   const response = await axios.put(
-    `http://localhost:5000/api/task/update-task`,
+    `${BASE_URL}/task/update-task`,
     formData
   );
   console.log(response);
   return response?.data;
-  
 };
+
 export const deleteTaskApi = async (getCurrentTaskId) => {
   const response = await axios.delete(
-    `http://localhost:5000/api/task/delete-task/${getCurrentTaskId}`
+    `${BASE_URL}/task/delete-task/${getCurrentTaskId}`
   );
-
   return response?.data;
 };
