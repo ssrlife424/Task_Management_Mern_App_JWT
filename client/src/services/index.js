@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BASE_URL = "https://task-management-mern-app-jwt-backend.onrender.com/api";
 
-export const callRegisterUser Api = async (formData) => {
+export const callRegisterUserApi = async (formData) => {
   const response = await axios.post(
     `${BASE_URL}/user/register`,
     formData,
@@ -11,7 +11,7 @@ export const callRegisterUser Api = async (formData) => {
   return response?.data;
 };
 
-export const callLoginUser Api = async (formData) => {
+export const callLoginUserApi = async (formData) => {
   const response = await axios.post(
     `${BASE_URL}/user/login`,
     formData,
@@ -20,7 +20,7 @@ export const callLoginUser Api = async (formData) => {
   return response?.data;
 };
 
-export const callUser AuthApi = async () => {
+export const callUserAuthApi = async () => {
   const response = await axios.post(
     `${BASE_URL}/user/auth`,
     {},
@@ -46,9 +46,9 @@ export const addNewTaskApi = async (formData) => {
   return response?.data;
 };
 
-export const getAllTasksApi = async (getCurrentUser Id) => {
+export const getAllTasksApi = async (getCurrentUserId) => {
   const response = await axios.get(
-    `${BASE_URL}/task/get-all-tasks-by-userid/${getCurrentUser Id}`
+    `${BASE_URL}/task/get-all-tasks-by-userid/${getCurrentUserId}`
   );
   return response?.data;
 };
