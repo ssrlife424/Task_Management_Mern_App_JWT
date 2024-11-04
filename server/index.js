@@ -10,7 +10,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["https://task-management-mern-app-jwt-client.onrender.com"],
+    origin: ["https://task-management-mern-app-frontend.vercel.app/"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
