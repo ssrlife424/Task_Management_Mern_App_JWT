@@ -10,7 +10,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["https://task-management-mern-app-frontend.vercel.app/"],
+    origin: ["https://taskmanagementjwtmern.netlify.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
