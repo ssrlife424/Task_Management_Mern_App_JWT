@@ -56,7 +56,9 @@ const registerUser = async (req, res, next) => {
 
         res.cookie("token", token, {
           withCredentials: true,
-          httpOnly: false,
+          httpOnly: true,
+          sameSite: "None",
+          secure: true,
         });
         res.status(201).json({
           success: true,
@@ -112,7 +114,9 @@ const loginUser = async (req, res, next) => {
 
     res.cookie("token", token, {
       withCredentials: true,
-      httpOnly: false,
+      httpOnly: true,
+      sameSite: "None",
+      secure: true,
     });
     res.status(201).json({
       success: true,
@@ -121,7 +125,6 @@ const loginUser = async (req, res, next) => {
     next()
   } catch (error) {
     console.log(error);
-
     return res.status(500).json({
       success: false,
       message: "Something went wrong ! Please try again",
@@ -133,7 +136,9 @@ const loginUser = async (req, res, next) => {
 const logout = async(req,res)=>{
   res.cookie('token',"",{
     withCredentials: true,
-    httpOnly: false,
+    httpOnly: true,
+    sameSite: "None",
+    secure: true,
 })
 return res.status(200).json({
   success: true,
