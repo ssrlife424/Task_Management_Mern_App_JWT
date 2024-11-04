@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://task-management-mern-app-jwt-backend.onrender.com/api";
+const BASE_URL = "https://task-management-mern-app-jwt-backend.vercel.app/api";
 
 export const callRegisterUserApi = async (formData) => {
   const response = await axios.post(
