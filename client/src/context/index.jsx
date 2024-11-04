@@ -22,23 +22,47 @@ function TaskManagerProvider({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // useEffect(() => {
+  //   const verifyUserCookie = async () => {
+  //     const data = await callUserAuthApi();
+  //     // console.log(data, "verifyUserCookie");
+  //     if (data?.userInfo) {
+  //       setUser(data.userInfo);
+  //     }
+  //     return data?.success
+  //       ? navigate(
+  //           location.pathname === "/auth" || location.pathname === "/"
+  //             ? "tasks/list"
+  //             : `${location.pathname}`
+  //         )
+  //       : navigate("/auth");
+  //   };
+  //   verifyUserCookie();
+  // }, [navigate, location.pathname]);
   useEffect(() => {
-    const verifyUserCookie = async () => {
+  const verifyUserCookie = async () => {
+    try {
       const data = await callUserAuthApi();
-      // console.log(data, "verifyUserCookie");
+      console.log(data, "verifyUserCookie");
+
       if (data?.userInfo) {
         setUser(data.userInfo);
       }
-      return data?.success
-        ? navigate(
-            location.pathname === "/auth" || location.pathname === "/"
-              ? "tasks/list"
-              : `${location.pathname}`
-          )
-        : navigate("/auth");
-    };
-    verifyUserCookie();
-  }, [navigate, location.pathname]);
+
+      if (data?.success) {
+        navigate(location.pathname === "/auth" || location.pathname === "/" ? "tasks/list" : location.pathname);
+      } else {
+        navigate("/auth");
+      }
+    } catch (error) {
+      console.error("Error verifying user cookie:", error);
+      navigate("/auth");
+    }
+  };
+
+  verifyUserCookie();
+}, [navigate, location.pathname]);
+
 
   return (
     <TaskManagerContext.Provider
